@@ -30,6 +30,36 @@ class SecondVC: UIViewController {
         super.viewDidLoad()
         
         fetchImage()
+        
+        delay(3) {
+            self.loginAlert()
+        }
+    }
+    
+    fileprivate func delay(_ delay: Int, closure: @escaping () -> ()) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(delay)) {
+            closure()
+        }
+    }
+    
+    fileprivate func loginAlert() {
+        
+        let ac = UIAlertController(title: "Зарегистрированы?", message: "Введите Ваш логин и пароль", preferredStyle: .alert)
+        let ok = UIAlertAction(title: "OK", style: .default)
+        let cancel = UIAlertAction(title: "Cancel", style: .default)
+        ac.addAction(ok)
+        ac.addAction(cancel)
+        
+        ac.addTextField { (usernameTF) in
+            usernameTF.placeholder = "Введите логин"
+        }
+        
+        ac.addTextField { (userpasswordTF) in
+            userpasswordTF.placeholder = "Введите пароль"
+            userpasswordTF.isSecureTextEntry = true
+        }
+        
+        self.present(ac, animated: true, completion: nil)
     }
     
     fileprivate func fetchImage() {
