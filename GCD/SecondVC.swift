@@ -36,7 +36,16 @@ class SecondVC: UIViewController {
         imageURL = URL(string: "https://global-uploads.webflow.com/5c741219fd0819aad790e78b/5cc21a272ddf6fa4e2a8b125_kotlin-multiplatform.png")
         activityIndicator.isHidden = false
         activityIndicator.startAnimating()
-        guard let url = imageURL, let imageData = try? Data(contentsOf: url) else { return }
-        self.image = UIImage(data: imageData)
+        
+        DispatchQueue.global(qos: .utility)
+            .async {
+                guard let url = self.imageURL, let imageData = try? Data(contentsOf: url) else { return }
+            
+                DispatchQueue.main.async {
+                    
+                    self.image = UIImage(data: imageData)
+                }
+        }
+        
     }
 }
